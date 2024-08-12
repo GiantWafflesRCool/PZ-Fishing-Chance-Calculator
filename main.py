@@ -3,6 +3,7 @@ from tkinter import StringVar
 from tkinter import OptionMenu
 calculation = ""
 NatureAbundanceMod = 100
+has_reduced_mod = False
 def add_to_calculation(symbol):
     global calculation
     calculation += str(symbol)
@@ -48,6 +49,11 @@ def show():
     
 def calculate_probability():
     global NatureAbundanceMod
+    CurrentHour = int(entry.get())
+    if CurrentHour >= 4 and CurrentHour <= 6 or CurrentHour >= 18 and CurrentHour <= 20:
+        NatureAbundanceMod -= 10
+        has_reduced_mod = True
+    has_reduced_mod = False
     probability = 1 / (NatureAbundanceMod + 1)
     print(probability)
     print(NatureAbundanceMod)
@@ -80,6 +86,9 @@ nature_abundance_options = [ "Very Poor", "Poor", "Normal", "Abundant", "Very Ab
 drop_nature_abundance = OptionMenu(root, nature_abundance ,*nature_abundance_options)
 drop_nature_abundance.grid(row=7, column=2)
 
+entry = tk.Entry(root, width = 10, font=("Arial", 14))
+entry.grid(row = 9, column = 1, columnspan = 4, pady=(20, 0))
+
 btn_print = tk.Button(root, text="Print", command=lambda: print(NatureAbundanceMod), width=11, font=("Arial", 14)) #better to use lambda rather than just calling the function where as lambda will refer to a function that will be called
 btn_print.grid(row=7, column=3)
 
@@ -88,6 +97,6 @@ btn_equal.grid(row=6, column=1, columnspan=2)
 btn_clear = tk.Button(root, text="C", command=clear_field, width=11, font=("Arial", 14)) #better to use lambda rather than just calling the function where as lambda will refer to a function that will be called
 btn_clear.grid(row=6, column=3, columnspan=2)
 
-btn_probability = tk.Button(root, text="Probability Calculator", command=calculate_probability, width=11, font=("Arial", 14))
-btn_probability.grid(row = 8, column = 1, columnspan = 3)
+btn_probability = tk.Button(root, text="Probability Calculator", command=calculate_probability, width=16, font=("Arial", 14), )
+btn_probability.grid(row = 8, column = 1, columnspan = 4, pady=(20, 0))
 root.mainloop()
